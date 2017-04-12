@@ -56,8 +56,16 @@ var countryDisplay = function(){
     var capital = document.createElement('p')
     capital.innerText = selectedCountry.capital
 
+    var flag = document.createElement('img')
+    flag.src = selectedCountry.flag
+    flag.width = 500
+
+    var br = document.createElement('br')
+
     var div = document.querySelector('#country-result')
 
+    div.appendChild(flag)
+    div.appendChild(br)
     div.appendChild(name)
     div.appendChild(population)
     div.appendChild(capital)
