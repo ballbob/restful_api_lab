@@ -2,27 +2,18 @@ var countries
 
 var app = function () {
     var url = "https://restcountries.eu/rest/v2"
-    makeRequest(url, requestComplete)   // requestComplete is the callback we're sending to makeRequest
+    makeRequest(url, requestComplete)
     var select = document.querySelector('#country-dropdown')
     select.onchange = countryDisplay;
-    // countries = makeRequest(url,getCountries);
-    // console.log(countries);
 }
 
 // inside requestComplete, this will be the *request*
 var requestComplete = function () {
-    if (this.status !== 200) return         // just get out of this function if request unsuccessful
-    var jsonString = this.responseText      // responseText holds the actual data we get back (as JSON DOMString)
-    countries = JSON.parse(jsonString)  // now parse it to make it an Object (an array of countries)
-    populateList(countries)                 // send off the data to a function which will populate the list
+    if (this.status !== 200) return
+    var jsonString = this.responseText
+    countries = JSON.parse(jsonString)
+    populateList(countries)
 }
-
-// var getCountries = function(){
-//     if (this.status !== 200) return         
-//     var jsonString = this.responseText      
-//     var countries = JSON.parse(jsonString)  
-//     return countries 
-// }
 
 var populateList = function (countries) {
     var select = document.querySelector("#country-dropdown")
@@ -35,10 +26,10 @@ var populateList = function (countries) {
 
 // makeRequest takes a URL to GET, and a callback to run when it's done
 var makeRequest = function (url, callback) {
-    var request = new XMLHttpRequest()      // create a new XMLHttpRequest object
-    request.open("GET", url)                // .open it, specifying the type of request, and the URL
-    request.onload = callback               // specify the callback to run when request complete
-    request.send()                          // finally, send the request
+    var request = new XMLHttpRequest()
+    request.open("GET", url)
+    request.onload = callback
+    request.send()           
 }
 
 var saveCountry = function (country) {
@@ -55,13 +46,13 @@ var countryDisplay = function(){
     saveCountry(selectedCountry)
     
     var name = document.createElement('p')
-    name.innerText = selectedCountry.name
+    name.innerText = "Name: " + selectedCountry.name
 
     var population = document.createElement('p')
-    population.innerText = selectedCountry.population
+    population.innerText = "Population: " + selectedCountry.population
 
     var capital = document.createElement('p')
-    capital.innerText = selectedCountry.capital
+    capital.innerText = "Capital: " + selectedCountry.capital
 
     var flag = document.createElement('img')
     flag.src = selectedCountry.flag
@@ -76,7 +67,6 @@ var countryDisplay = function(){
     div.appendChild(name)
     div.appendChild(population)
     div.appendChild(capital)
-
 }
 
 window.onload = app; // app() is run when window loaded
