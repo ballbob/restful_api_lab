@@ -1,15 +1,28 @@
+var countries
+
 var app = function () {
     var url = "https://restcountries.eu/rest/v2"
     makeRequest(url, requestComplete)   // requestComplete is the callback we're sending to makeRequest
+    var select = document.querySelector('#country-dropdown')
+    select.onchange = countryDisplay;
+    // countries = makeRequest(url,getCountries);
+    // console.log(countries);
 }
 
 // inside requestComplete, this will be the *request*
 var requestComplete = function () {
     if (this.status !== 200) return         // just get out of this function if request unsuccessful
     var jsonString = this.responseText      // responseText holds the actual data we get back (as JSON DOMString)
-    var countries = JSON.parse(jsonString)  // now parse it to make it an Object (an array of countries)
+    countries = JSON.parse(jsonString)  // now parse it to make it an Object (an array of countries)
     populateList(countries)                 // send off the data to a function which will populate the list
 }
+
+// var getCountries = function(){
+//     if (this.status !== 200) return         
+//     var jsonString = this.responseText      
+//     var countries = JSON.parse(jsonString)  
+//     return countries 
+// }
 
 var populateList = function (countries) {
     var select = document.querySelector("#country-dropdown")
@@ -26,6 +39,29 @@ var makeRequest = function (url, callback) {
     request.open("GET", url)                // .open it, specifying the type of request, and the URL
     request.onload = callback               // specify the callback to run when request complete
     request.send()                          // finally, send the request
+}
+
+//countryDisplay displays the country selected in the drop-down menu
+var countryDisplay = function(){
+    var selectedCountry = countries.find(function(country){
+        return country.name === this.value;
+    }.bind(this))
+    
+    var name = document.createElement('p')
+    name.innerText = selectedCountry.name
+
+    var population = document.createElement('p')
+    population.innerText = selectedCountry.population
+
+    var capital = document.createElement('p')
+    capital.innerText = selectedCountry.capital
+
+    var div = document.querySelector('#country-result')
+
+    div.appendChild(name)
+    div.appendChild(population)
+    div.appendChild(capital)
+
 }
 
 window.onload = app; // app() is run when window loaded
