@@ -41,11 +41,18 @@ var makeRequest = function (url, callback) {
     request.send()                          // finally, send the request
 }
 
+var saveCountry = function (country) {
+    var jsonString = JSON.stringify(country)
+    localStorage.setItem("lastCountry", jsonString)
+}
+
 //countryDisplay displays the country selected in the drop-down menu
 var countryDisplay = function(){
     var selectedCountry = countries.find(function(country){
         return country.name === this.value;
     }.bind(this))
+
+    saveCountry(selectedCountry)
     
     var name = document.createElement('p')
     name.innerText = selectedCountry.name
